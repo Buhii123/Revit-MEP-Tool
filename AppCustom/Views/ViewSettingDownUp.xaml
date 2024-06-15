@@ -1,0 +1,15 @@
+﻿<Window x:Class="AppCustom.Views.ViewSettingDownUp"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AppCustom.Views"
+             mc:Ignorable="d" 
+             Title="Offset Input" Height="150" Width="280">
+    <Grid>
+        <Label Content="Enter offset value (mm):" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5"/>
+        <TextBox x:Name="OffsetTextBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,30,0,0" Width="260"
+                 PreviewTextInput="OffsetTextBox_PreviewTextInput" DataObject.Pasting="OffsetTextBox_Pasting"/>
+        <Button x:Name="btnAppLy" Command="{Binding AppLyCommand}" Content="APPLY" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10" Width="75" />
+    </Grid>
+</Window>

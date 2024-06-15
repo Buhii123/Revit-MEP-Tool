@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v7.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v7.0": {
+      "Ab3d.PowerToys/11.1.8864.2070": {
+        "runtime": {
+          "Ab3d.PowerToys.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Ab3d.PowerToys/11.1.8864.2070": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

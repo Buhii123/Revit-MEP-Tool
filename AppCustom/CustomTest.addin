@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<RevitAddIns>
+	<AddIn Type="Application">
+		<Name>test</Name>
+		<Assembly>AppCustom.dll</Assembly>
+		<AddInId>65753FA0-C4BE-462B-956B-AE0A1A0B0932</AddInId>
+		<FullClassName>AppCustom.AAppMain</FullClassName>
+		<VendorId>Buhii</VendorId>
+		<VendorDescription>Autodesk, www.autodesk.com</VendorDescription>
+	</AddIn>
+</RevitAddIns>

@@ -187,6 +187,8 @@
     <Compile Include="Asset\CoreAssembly.cs" />
     <Compile Include="Asset\ResourceAssembly.cs" />
     <Compile Include="Asset\ResourceImage.cs" />
+    <Compile Include="Commands\DisnableID.cs" />
+    <Compile Include="Commands\PipeFittingUpdater.cs" />
     <Compile Include="Commands\SetColorByFillterCommand.cs" />
     <Compile Include="Commands\SlitDuctCommand.cs" />
     <Compile Include="Compares\CategoryComparer.cs" />
@@ -213,11 +215,11 @@
     <Compile Include="Commands\DownPipe45Command.cs" />
     <Compile Include="Commands\DownPipe90Command.cs" />
     <Compile Include="Commands\ExcuteAction\ExcuteActioneRevit.cs" />
-    <Compile Include="Commands\GetInfoCheckInsulationPipe.cs" />
+    <Compile Include="Models\GetInfoCheckInsulationPipe.cs" />
     <Compile Include="Commands\LoadFamilyExternalCommand.cs" />
     <Compile Include="Commands\MyCommand.cs" />
     <Compile Include="Commands\MyExternalEventHandler.cs" />
-    <Compile Include="Commands\PipeInsulationUpdater.cs" />
+    <Compile Include="Commands\PipeUpdater.cs" />
     <Compile Include="Commands\PipeInsulationUpdaterCommand.cs" />
     <Compile Include="Commands\RegisterWallUpdaterCommand.cs" />
     <Compile Include="Commands\RoatetestCommand.cs" />
@@ -259,6 +261,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StoreExible\ExtensibleStorageSettingDuct.cs" />
     <Compile Include="StoreExible\ExtensibleStorageSettingPipe.cs" />
+    <Compile Include="StoreExible\GuidIDLoadFamily.cs" />
+    <Compile Include="StoreExible\GuidIDUpDateterInsu.cs" />
+    <Compile Include="StoreExible\GuiIDPipeFitting.cs" />
     <Compile Include="StoreExible\InfoItemsStorage.cs" />
     <Compile Include="Test\BuhiiTest2.cs" />
     <Compile Include="Test\ButtonTest2.cs" />

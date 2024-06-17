@@ -18,38 +18,61 @@ using AppCustom.Views;
 using Autodesk.Revit.DB.Events;
 using AppCustom.ViewModels;
 using AppCustom.Commands;
+using System.Windows.Forms;
+using Autodesk.Revit.DB.ExtensibleStorage;
+using AppCustom.StoreExible;
 
 namespace AppCustom
 {
     public class AAppMain : IExternalApplication
     {
+     
         public Result OnStartup(UIControlledApplication application)
         {
-            application.CreateRibbonTab("Buhii Custom");
-            CreatePanelUIApp tienit = new CreatePanelUIApp(application, "Tool Buhii", "Buhii Custom");
+          
+            string tabName = "Buhii Custom";
+            application.CreateRibbonTab(tabName);
+            CreatePanelUIApp tienit = new CreatePanelUIApp(application, "Tool Buhii", tabName);
             tienit.CreateApp(
                    typeof(LoadFamily)
                 );
-            CreatePanelUIApp pipe = new CreatePanelUIApp(application, "Tool Pipe", "Buhii Custom");
+            CreatePanelUIApp pipe = new CreatePanelUIApp(application, "Tool Pipe", tabName);
             pipe.CreateApp(
                    typeof(PipeInsulatiton),
                    typeof(Rotate3D),
                    typeof(MepToolPipe)
                 );
-            CreatePanelUIApp Mep = new CreatePanelUIApp(application, "Tool Duct", "Buhii Custom");
+            CreatePanelUIApp Mep = new CreatePanelUIApp(application, "Tool Duct", tabName);
             Mep.CreateApp(
                    typeof(ToolDcut),
                    typeof(MepToolDcut)
-
-                );
-         
-
-
-
-
-            adWin.RibbonControl ribbon = adWin.ComponentManager.Ribbon;
+            );
 
             // define an image brush
+
+
+
+            RibbonPanel panels = application.CreateRibbonPanel(tabName, "MyPanel");
+
+            string path = Assembly.GetExecutingAssembly().Location;
+            PushButtonData buttonData = new PushButtonData(
+                "MyButtonasdasss",
+                "Click Mes",
+                path,
+                "Namespace.MyCommand");
+            
+
+            PushButton pushButton = panels.AddItem(buttonData) as PushButton;
+            pushButton.ToolTip = "This is a tooltip";    
+            pushButton.Enabled = false;
+
+
+
+
+            // define an image brush
+            adWin.RibbonControl ribbon = adWin.ComponentManager.Ribbon;
+
+           
 
             ImageBrush picBrush = new ImageBrush();
             picBrush.AlignmentX = AlignmentX.Left;
@@ -101,7 +124,7 @@ namespace AppCustom
            
             LoadFamilyExternalCommand loadfamily = new LoadFamilyExternalCommand(); 
             ExternalEvent externalEvent = ExternalEvent.Create(loadfamily);
-            DockablePaneId paneId = new DockablePaneId(new Guid("BA44139A-9F40-4EC4-BDBB-3866AB5C2E30"));
+            DockablePaneId paneId = new DockablePaneId(GuidIDLoadFamily.SchemaGUID);
             ViewLoadFamily provider = new ViewLoadFamily(loadfamily, externalEvent)
             {
                 
@@ -109,14 +132,17 @@ namespace AppCustom
             application.RegisterDockablePane(paneId, "Load Famliy", provider);
             return Result.Succeeded;
         }
-        private void ControlledApplication_ApplicationInitialized(object sender, ApplicationInitializedEventArgs e)
-        {
-            
-        }
+      
         public Result OnShutdown(UIControlledApplication application)
         {
+
+            DisnableID disnable = new DisnableID();
+            ExternalEvent externalEvent = ExternalEvent.Create(disnable);
+            externalEvent.Raise();
             return Result.Succeeded;
         }
+   
+     
     }
   
 }

@@ -1,5 +1,6 @@
 ﻿using AppCustom.Controller;
 using AppCustom.Storage;
+using AppCustom.StoreExible;
 using AppCustom.Views;
 using Autodesk.Revit.Attributes;
 
@@ -47,7 +48,7 @@ namespace AppCustom.Commands
 
 
             AddInId appId = uiApp.ActiveAddInId;
-            UpdaterId updaterId = new UpdaterId(appId, new Guid("737F262B-62DF-4B19-A7AA-B3F21E77445D"));
+            UpdaterId updaterId = new UpdaterId(appId, GuidIDUpDateterInsu.SchemaGUID);
             // Check if the updater is registered
             if (UpdaterRegistry.IsUpdaterRegistered(updaterId))
             {
@@ -59,13 +60,34 @@ namespace AppCustom.Commands
        
 
             //end
-            PipeInsulationUpdater updater = new PipeInsulationUpdater(appId, rs.infoItems.ToList());
+            PipeUpdater updater = new PipeUpdater(appId, rs.infoItems.ToList());
             if (!UpdaterRegistry.IsUpdaterRegistered(updater.GetUpdaterId()))
             {
                 UpdaterRegistry.RegisterUpdater(updater);
                 ElementCategoryFilter filter = new ElementCategoryFilter(BuiltInCategory.OST_PipeCurves);
                 UpdaterRegistry.AddTrigger(
                     updater.GetUpdaterId(),
+                    filter,
+                    Element.GetChangeTypeElementAddition());
+            }
+
+
+
+            AddInId appIdF = uiApp.ActiveAddInId;
+            UpdaterId updaterIdF = new UpdaterId(appIdF, GuiIDPipeFitting.SchemaGUID);
+            PipeFittingUpdater updaterF = new PipeFittingUpdater(appIdF);
+            if (UpdaterRegistry.IsUpdaterRegistered(updaterIdF))
+            {
+                // Unregister the updater
+                UpdaterRegistry.UnregisterUpdater(updaterIdF);
+
+            }
+            if (!UpdaterRegistry.IsUpdaterRegistered(updaterF.GetUpdaterId()))
+            {
+                UpdaterRegistry.RegisterUpdater(updaterF);
+                ElementCategoryFilter filter = new ElementCategoryFilter(BuiltInCategory.OST_PipeFitting);
+                UpdaterRegistry.AddTrigger(
+                    updaterF.GetUpdaterId(),
                     filter,
                     Element.GetChangeTypeElementAddition());
             }

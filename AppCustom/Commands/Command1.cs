@@ -19,6 +19,8 @@ using System.Diagnostics;
 using AppCustom.ViewModels;
 using System.Windows;
 using UIFramework;
+using Autodesk.Revit.UI.Selection;
+using AppCustom.StoreExible;
 
 namespace AppCustom.Commands
 {
@@ -31,17 +33,27 @@ namespace AppCustom.Commands
             UIApplication uiApp = commandData.Application;
             UIDocument uidoc = uiApp.ActiveUIDocument;
             Document doc = uidoc.Document;
-            try
+
+            AddInId appIdF = uiApp.ActiveAddInId;
+            UpdaterId updaterIdF = new UpdaterId(appIdF, GuiIDPipeFitting.SchemaGUID);
+            PipeFittingUpdater updater = new PipeFittingUpdater(appIdF);
+            if (UpdaterRegistry.IsUpdaterRegistered(updaterIdF))
             {
-          
-                return Result.Succeeded;
+                // Unregister the updater
+                UpdaterRegistry.UnregisterUpdater(updaterIdF);
+
             }
-            catch (Exception ex)
+            if (!UpdaterRegistry.IsUpdaterRegistered(updater.GetUpdaterId()))
             {
-                message = ex.Message;
-                return Result.Failed;
+                UpdaterRegistry.RegisterUpdater(updater);
+                ElementCategoryFilter filter = new ElementCategoryFilter(BuiltInCategory.OST_PipeFitting);
+                UpdaterRegistry.AddTrigger(
+                    updater.GetUpdaterId(),
+                    filter,
+                    Element.GetChangeTypeElementAddition());
             }
-          //  return Result.Succeeded;
+            return Result.Succeeded;
+         
         }
         public static string GetPath()
         {

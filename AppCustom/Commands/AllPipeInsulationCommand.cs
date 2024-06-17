@@ -51,12 +51,32 @@ namespace AppCustom.Commands
             {
                 transactionGroup.Start();
 
-          
+                TransactionMethod.TranTransactionRun(() =>
+                {
+                    foreach (Pipe pipe in collectorPipes)
+                    {
+                        CalculateRevit.RemoveInsulationPipe(doc, pipe);
+                        CalculateRevit.ProcessCheckPipe(doc, pipe, infoItems);
+                        currentCount++;
+                        progressBarWindow.Dispatcher.Invoke(() => {
+                            progressBarWindow.UpdateProgress(currentCount, totalCount);
+                        }, DispatcherPriority.Background);
+                    }
+                }, doc, "Remove and Add Insulation to Pipes");
+
                 TransactionMethod.TranTransactionRun(() =>
                 {
                     foreach (FamilyInstance pipef in fittingCollector)
                     {
                         CalculateRevit.RemoveInsulationPipeFitting(doc, pipef);
+                        ElementId ce = CalculateRevit.GetConnectedPipeId(pipef, doc);
+                        if (ce != null)
+                        {
+                            var typeInsu = CalculateRevit.GetPipeInsulationInfo(ce, doc);
+                            var thicknessInsu = CalculateRevit.GetThickneesPipeInsulationInfo(ce, doc);
+                            PipeInsulation.Create(doc, pipef.Id, typeInsu, thicknessInsu);
+                        }
+
                         currentCount++;
                         progressBarWindow.Dispatcher.Invoke(() => {
                             progressBarWindow.UpdateProgress(currentCount, totalCount);
@@ -64,18 +84,7 @@ namespace AppCustom.Commands
                     }
                 },doc, "Remove Insulation from Fittings");
                                       
-                TransactionMethod.TranTransactionRun(() =>
-                    {
-                        foreach (Pipe pipe in collectorPipes)
-                        {
-                            CalculateRevit.RemoveInsulationPipe(doc, pipe);
-                            CalculateRevit.ProcessCheckPipe(doc, pipe, infoItems);
-                            currentCount++;
-                            progressBarWindow.Dispatcher.Invoke(() => {
-                                progressBarWindow.UpdateProgress(currentCount, totalCount);
-                            }, DispatcherPriority.Background);
-                        }
-                    }, doc, "Remove and Add Insulation to Pipes");
+                
 
                 transactionGroup.Assimilate();
             }

@@ -156,8 +156,6 @@ namespace AppCustom
 
             return Pipe.Create(doc, System, ductTypeId, levelId, duct1End.Origin, newDuctEnd.Origin);
         }
-
-
         public static void CreateElbowFittingBetweenPipe(Document doc, Pipe duct1, Pipe duct2)
         {
             // Lấy các Connector của duct1 và duct2
@@ -193,6 +191,55 @@ namespace AppCustom
             }
             doc.Delete(middleDuct.Id);
         }
+        //Pipe Fitting
+        public static ElementId GetPipeInsulationInfo(ElementId pipeId, Document doc)
+        {
+            Pipe pipe = doc.GetElement(pipeId) as Pipe;
+            var valueInsupipe = pipe.get_Parameter(BuiltInParameter.RBS_REFERENCE_INSULATION_TYPE).AsValueString();
+            var INSULATION_TYPEID = CalculateRevit.GetPipeInsulationTypeId(doc, valueInsupipe);
+            return INSULATION_TYPEID;
+        }
+        public static double GetThickneesPipeInsulationInfo(ElementId pipeId, Document doc)
+        {
+            Pipe pipe = doc.GetElement(pipeId) as Pipe;
+            var valueInsupipe = pipe.get_Parameter(BuiltInParameter.RBS_REFERENCE_INSULATION_THICKNESS).AsDouble();
+            return valueInsupipe ;
+        }
+        public static ElementId GetConnectedPipeId(FamilyInstance pipeFitting,Document doc)
+        {
+            // Lấy MEPModel từ FamilyInstance
+            MEPModel mepModel = pipeFitting.MEPModel;
+
+            if (mepModel?.ConnectorManager?.Connectors != null)
+            {
+                // Sử dụng LINQ để tìm ElementId của Pipe được kết nối và có Insulation
+                return mepModel.ConnectorManager.Connectors
+                    .Cast<Connector>()
+                    .SelectMany(connector => connector.AllRefs.Cast<Connector>())
+                    .Select(connectedConnector => connectedConnector.Owner)
+                    .OfType<Pipe>()
+                    .FirstOrDefault(pipe => InsulationLiningBase.GetInsulationIds(doc, pipe.Id).Count > 0)?.Id;
+            }
+
+            return null;
+            //// Lấy MEPModel từ FamilyInstance
+            //MEPModel mepModel = pipeFitting.MEPModel;
+
+            //if (mepModel?.ConnectorManager?.Connectors != null)
+            //{
+            //    // Sử dụng LINQ để tìm ElementId của Pipe được kết nối
+            //    return mepModel.ConnectorManager.Connectors
+            //        .Cast<Connector>()
+            //        .SelectMany(connector => connector.AllRefs.Cast<Connector>())
+            //        .Select(connectedConnector => connectedConnector.Owner)
+            //        .OfType<Pipe>()
+            //        .Select(pipe => pipe.Id)
+            //        .FirstOrDefault();
+            //}
+
+            //return null;
+        }
+
         //CableTray 
         public static XYZ GetMidPointCableTray(CableTray cableTray1, CableTray cableTray2)
         {
@@ -493,6 +540,7 @@ namespace AppCustom
             }
         }
         //
+
         public static double ConvertDouble(string value)
         {
             if (!double.TryParse(value, out double fromValue))

@@ -9,8 +9,8 @@ namespace AppCustom.Storage
 {
     public static class InfoItemsStorage
     {
-        private static Guid schemaGuid = new Guid("D8E5B3D8-6D0D-4C9E-BD36-7A5B9CE9FACA");
-        private static string schemaName = "InfoItemsSchema";
+        public static Guid schemaGuid = new Guid("D8E5B3D8-6D0D-4C9E-BD36-7A5B9CE9FACA");
+        public static string schemaName = "InfoItemsSchema";
 
         public static void SaveInfoItems(Document doc, List<GetInfoCheckInsulationPipe> infoItems)
         {

@@ -1,4 +1,5 @@
-﻿using Autodesk.Revit.Attributes;
+﻿using AppCustom.StoreExible;
+using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using System;
@@ -18,12 +19,15 @@ namespace AppCustom.Commands
             AddInId appId = uiApp.ActiveAddInId;
 
             // Sử dụng appId để tạo UpdaterId
-            UpdaterId updaterId = new UpdaterId(appId, new Guid("737F262B-62DF-4B19-A7AA-B3F21E77445D"));
+            UpdaterId updaterId = new UpdaterId(appId, GuidIDUpDateterInsu.SchemaGUID);
 
             // Check if the updater is registered
             if (UpdaterRegistry.IsUpdaterRegistered(updaterId))
             {
                 // Unregister the updater
+                DisnableID disnable = new DisnableID();
+                ExternalEvent ex = ExternalEvent.Create(disnable);
+                ex.Raise();
                 UpdaterRegistry.UnregisterUpdater(updaterId);
                 TaskDialog.Show("Thông báo", "Pipe Insulation đã được hủy thành công.");
             }

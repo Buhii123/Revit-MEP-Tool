@@ -1,4 +1,5 @@
-﻿using Autodesk.Revit.Attributes;
+﻿using AppCustom.StoreExible;
+using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using System;
@@ -15,7 +16,7 @@ namespace AppCustom.Commands
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             // Lấy Dockable Pane và hiển thị nó
-            DockablePaneId paneId = new DockablePaneId(new Guid("BA44139A-9F40-4EC4-BDBB-3866AB5C2E30"));
+            DockablePaneId paneId = new DockablePaneId(GuidIDLoadFamily.SchemaGUID);
             DockablePane pane = commandData.Application.GetDockablePane(paneId);
             pane.Show();
             return Result.Succeeded;

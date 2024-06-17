@@ -1,4 +1,5 @@
-﻿using Autodesk.Revit.DB;
+﻿using AppCustom.StoreExible;
+using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Electrical;
 using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.UI;
@@ -13,7 +14,7 @@ using System.Windows;
 namespace AppCustom.Commands
 {
     
-    public class PipeInsulationUpdater : IUpdater
+    public class PipeUpdater : IUpdater
     {
         //static AddInId appId;
         //static UpdaterId updaterId;
@@ -27,10 +28,10 @@ namespace AppCustom.Commands
         private static HashSet<ElementId> _processedPipes = new HashSet<ElementId>();
 
 
-        public PipeInsulationUpdater(AddInId id,List<GetInfoCheckInsulationPipe> getinfo)
+        public PipeUpdater(AddInId id,List<GetInfoCheckInsulationPipe> getinfo)
         {
             appId = id;
-            updaterId = new UpdaterId(appId, new Guid("737F262B-62DF-4B19-A7AA-B3F21E77445D"));
+            updaterId = new UpdaterId(appId, GuidIDUpDateterInsu.SchemaGUID);
             this._checkInsulations = getinfo;   
         }
 

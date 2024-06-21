@@ -187,6 +187,7 @@
     <Compile Include="Asset\CoreAssembly.cs" />
     <Compile Include="Asset\ResourceAssembly.cs" />
     <Compile Include="Asset\ResourceImage.cs" />
+    <Compile Include="Commands\CapOpenEndCommand.cs" />
     <Compile Include="Commands\DisnableID.cs" />
     <Compile Include="Commands\PipeFittingUpdater.cs" />
     <Compile Include="Commands\SetColorByFillterCommand.cs" />
@@ -378,9 +379,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Asset\Image\pipe %281%29.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="NewFolder1\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="data.txt" />
   </ItemGroup>

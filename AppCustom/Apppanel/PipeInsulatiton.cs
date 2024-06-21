@@ -11,7 +11,6 @@ namespace AppCustom.Apppanel
     public class PipeInsulatiton
     {
         [PushButtonDataUI("Pipe Insulation", "Commands.PipeInsulationUpdaterCommand", LinkImage = "pipe (1).png", ToolTip = "Pipe Insulation")]
-
         public void PipeInsulationUpdater()
         {
 

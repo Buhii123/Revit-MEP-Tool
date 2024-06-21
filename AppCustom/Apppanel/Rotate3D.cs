@@ -15,6 +15,11 @@ namespace AppCustom.Apppanel
         {
 
         }
+        [PushButtonDataUI("Cap \nOpen End", "Commands.CapOpenEndCommand", LinkImage = "pipe (1).png", ToolTip = "Pipe Insulation")]
+        public void CapOpenEndCommand()
+        {
+
+        }
         [PushButtonDataUI("Setting \nOffset", "Commands.SettingDownUPPipeCommand", LinkImage = "pipe (1).png", ToolTip = "Setting Offset")]
         public void Setting()
         {

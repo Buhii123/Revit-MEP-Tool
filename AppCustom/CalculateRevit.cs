@@ -121,7 +121,20 @@ namespace AppCustom
         }
 
         //Pipe
-
+        public static bool IsSameDirectionPipe(Pipe pipe,XYZ point1, XYZ point2)
+        {
+            XYZ pipeDirection = (pipe.Location as LocationCurve).Curve.GetEndPoint(1) - (pipe.Location as LocationCurve).Curve.GetEndPoint(0);
+            XYZ selectedPointsDirection = point2 - point1;
+            double dotProduct = pipeDirection.DotProduct(selectedPointsDirection);
+            if (dotProduct > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;   
+            }
+        }
         public static XYZ GetMidPointPipe(Pipe Pipe1, Pipe Pipe2)
         {
             XYZ midPoint = (Pipe1.Location as LocationCurve).Curve.GetEndPoint(1) +
@@ -191,6 +204,14 @@ namespace AppCustom
             }
             doc.Delete(middleDuct.Id);
         }
+        //Parameter diameterParam = pipe.get_Parameter(BuiltInParameter.RBS_PIPE_DIAMETER_PARAM);
+        public static double GetDiameterPipe(Pipe pipe)
+        {
+            Parameter diameterParam = pipe.get_Parameter(BuiltInParameter.RBS_PIPE_DIAMETER_PARAM);
+            double value = diameterParam.AsDouble();
+            return value;
+
+        }  
         //Pipe Fitting
         public static ElementId GetPipeInsulationInfo(ElementId pipeId, Document doc)
         {
@@ -548,7 +569,18 @@ namespace AppCustom
                 throw new ArgumentException("Invalid 'from' value. It must be a valid number.");
             }
             return fromValue;
-        }   
+        }
+
+
+
+
+        public static double GetslopeDegrees(double value)
+        {       
+            double slopeRadians = Math.Atan(value); // Tính giá trị arctan (đơn vị radian)
+            double slopeDegrees = slopeRadians * (180.0 / Math.PI); // Chuyển đổi từ radian sang độ
+            slopeDegrees = Math.Round(slopeDegrees, 2);
+            return slopeDegrees;
+        }
         public static bool IsAlmostEqualTo(this XYZ point1, XYZ point2, double tolerance = 1e-6)
         {
             return point1.IsAlmostEqualTo(point2, tolerance);
